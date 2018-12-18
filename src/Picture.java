@@ -1,3 +1,4 @@
+import java.io.*;
 import java.awt.*;
 import java.awt.font.*;
 import java.awt.geom.*;
@@ -196,6 +197,66 @@ public class Picture extends SimplePicture {
 					leftPixel.setColor(Color.BLACK);
 				else
 					leftPixel.setColor(Color.WHITE);
+			}
+		}
+	}
+
+	public void keepOnlyBlue() {
+		Pixel[][] pixels = this.getPixels2D();
+		for (Pixel[] rowArray : pixels) {
+			for (Pixel pixelObj : rowArray) {
+				pixelObj.setRed(0);
+				pixelObj.setGreen(0);
+			}
+		}
+	}
+
+	public void negate() {
+		Pixel[][] pixels = this.getPixels2D();
+		for (Pixel[] rowArray : pixels) {
+			for (Pixel pixelObj : rowArray) {
+				int red = pixelObj.getRed();
+				int green = pixelObj.getGreen();
+				int blue = pixelObj.getBlue();
+				pixelObj.setRed(255 - red);
+				pixelObj.setGreen(255 - green);
+				pixelObj.setBlue(255 - blue);
+			}
+		}
+	}
+
+	public void grayscale() {
+		Pixel[][] pixels = this.getPixels2D();
+		for (Pixel[] rowArray : pixels) {
+			for (Pixel pixelObj : rowArray) {
+
+				int red = pixelObj.getRed();
+				int green = pixelObj.getGreen();
+				int blue = pixelObj.getBlue();
+
+				int avg = ((red + green + blue) / 3);
+
+				pixelObj.setRed(avg);
+				pixelObj.setGreen(avg);
+				pixelObj.setBlue(avg);
+			}
+		}
+	}
+
+	public void fixUnderwater() {
+		Pixel[][] pixels = this.getPixels2D();
+		for (Pixel[] rowArray : pixels) {
+			for (Pixel pixel : rowArray) {
+
+				int red = pixel.getRed();
+				int green = pixel.getGreen();
+				int blue = pixel.getBlue();
+
+				int blueVal = (int) Math.round(blue / 2);
+				int greenVal = (int) Math.round(green / 1.4);
+
+				pixel.setGreen(green - (100));
+				pixel.setBlue(blue - (100));
 			}
 		}
 	}
